@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApiFrankLiu.Models;
 
-namespace WebApi_FrankLiu_.Controllers
+namespace WebApiFrankLiu.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -24,22 +25,15 @@ namespace WebApi_FrankLiu_.Controllers
         }
 
         [HttpGet]
-        public string GetByObject([FromQuery] ProductDTO productDTO)
+        public string GetByObject([FromQuery] Product productDTO)
         {
             return $"Product id {productDTO.Id} has name: {productDTO.Name}";
         }
 
         [HttpPost]
-        public IActionResult PostObject([FromBody] ProductDTO productDTO)
+        public IActionResult PostObject([FromBody] Product productDTO)
         {
             return Ok($"Product id {productDTO.Id} has name: {productDTO.Name}");
         }
-    }
-
-    public class ProductDTO
-    {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
     }
 }

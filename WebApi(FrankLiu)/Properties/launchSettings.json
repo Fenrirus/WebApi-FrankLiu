@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WebApi_FrankLiu_": {
+    "WebApiFrankLiu": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
