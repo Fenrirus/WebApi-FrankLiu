@@ -4,12 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApiFrankLiu.Filters;
 using WebApiFrankLiu.Models;
 
 namespace WebApiFrankLiu.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // Dodałem w startup więc działa globalnie
+    [DebugResourceFilter1]
+    [DebugActionFilter]
     public class ProductsController : ControllerBase
     {
         /*[HttpGet]
@@ -19,6 +23,7 @@ namespace WebApiFrankLiu.Controllers
         }*/
 
         [HttpGet("{id}")]
+        [DebugResourceFilter2]
         public string GetById(int id, [FromQuery] bool isActive)
         {
             return $"Lots of produtcs: {id}, status: {isActive}";
