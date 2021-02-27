@@ -14,6 +14,7 @@ namespace WebApiFrankLiu.Controllers
     // Dodałem w startup więc działa globalnie
     [DebugResourceFilter1]
     [DebugActionFilter]
+    [TokenAuthenticationFilter]
     public class ProductsControllerV2 : ControllerBase
     {
         /*[HttpGet]
