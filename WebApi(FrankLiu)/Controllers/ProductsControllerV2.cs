@@ -9,12 +9,12 @@ using WebApiFrankLiu.Models;
 
 namespace WebApiFrankLiu.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v2/products")]
     [ApiController]
     // Dodałem w startup więc działa globalnie
     [DebugResourceFilter1]
     [DebugActionFilter]
-    public class ProductsController : ControllerBase
+    public class ProductsControllerV2 : ControllerBase
     {
         /*[HttpGet]
         public string Get()
@@ -33,6 +33,13 @@ namespace WebApiFrankLiu.Controllers
         public string GetByObject([FromQuery] Product productDTO)
         {
             return $"Product id {productDTO.Id} has name: {productDTO.Name}";
+        }
+
+        [HttpGet("daterange")]
+        [CheckDateRangeFilter]
+        public string GetByDate(DateTime startDate, DateTime endDate)
+        {
+            return "This is list of products";
         }
 
         [HttpPost]
