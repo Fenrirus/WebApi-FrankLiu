@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,8 @@ namespace WebApiFrankLiu.Controllers
     // Dodałem w startup więc działa globalnie
     [DebugResourceFilter1]
     [DebugActionFilter]
-    [TokenAuthenticationFilter]
+    //[TokenAuthenticationFilter]
+    [Authorize]
     public class ProductsControllerV2 : ControllerBase
     {
         /*[HttpGet]
