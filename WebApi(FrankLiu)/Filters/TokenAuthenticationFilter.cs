@@ -23,15 +23,18 @@ namespace WebApiFrankLiu.Filters
             if (result)
             {
                 token = context.HttpContext.Request.Headers.First(x => x.Key == "Autorization").Value;
-                if (!tokenManager.Verify(token))
+                try
                 {
-                    result = false;
+                    var claim = tokenManager.Verify(token);
+                }
+                catch (Exception ex)
+                {
+                    context.ModelState.AddModelError("Unauthorized", ex.ToString());
                 }
             }
 
             if (!result)
             {
-                context.ModelState.AddModelError("Unauthorized", "You are not ahuthorized");
                 context.Result = new UnauthorizedObjectResult(context.ModelState);
             }
         }

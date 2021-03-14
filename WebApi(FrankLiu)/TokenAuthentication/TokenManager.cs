@@ -1,28 +1,36 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 
 namespace WebApiFrankLiu.TokenAuthentication
 {
     public class TokenManager : ITokenManager
     {
-        private List<Token> listToken;
+        private JwtSecurityTokenHandler tokenHandler;
+        private byte[] secret;
 
         public TokenManager()
         {
-            listToken = new List<Token>();
+            tokenHandler = new JwtSecurityTokenHandler();
+            secret = Encoding.ASCII.GetBytes("rrrrrrrrrrrrrrrrrrrrrrr");
         }
 
-        public bool Verify(string token)
+        public ClaimsPrincipal Verify(string token)
         {
-            if (listToken.Any(x => x.Value == token && x.ExpirationDate > System.DateTime.Now))
+            var claim = tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(secret),
+                ValidateLifetime = true,
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ClockSkew = TimeSpan.Zero,
+            }, out SecurityToken validatedToken);
+            return claim;
         }
 
         public bool Authenticate(string user, string pwd)
@@ -37,16 +45,21 @@ namespace WebApiFrankLiu.TokenAuthentication
             }
         }
 
-        public Token GenerateToken()
+        public string GenerateToken()
         {
-            var token = new Token
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Value = Guid.NewGuid().ToString(),
-                ExpirationDate = System.DateTime.Now.AddMinutes(1),
+                Subject = new ClaimsIdentity(new Claim[] { new Claim(ClaimTypes.Name, "Robert K") }),
+                Expires = DateTime.UtcNow.AddMinutes(1),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(secret),
+                    SecurityAlgorithms.HmacSha256Signature)
             };
 
-            listToken.Add(token);
-            return token;
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwtToken = tokenHandler.WriteToken(token);
+
+            return jwtToken;
         }
     }
 }

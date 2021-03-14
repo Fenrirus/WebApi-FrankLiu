@@ -1,9 +1,13 @@
-﻿namespace WebApiFrankLiu.TokenAuthentication
+﻿using System.Security.Claims;
+
+namespace WebApiFrankLiu.TokenAuthentication
 {
     public interface ITokenManager
     {
         bool Authenticate(string user, string pwd);
-        Token GenerateToken();
-        bool Verify(string token);
+
+        string GenerateToken();
+
+        ClaimsPrincipal Verify(string token);
     }
 }
