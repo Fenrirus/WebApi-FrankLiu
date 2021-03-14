@@ -45,8 +45,9 @@ namespace WebApiFrankLiu.Controllers
             return "This is list of products";
         }
 
+        // to nie działa, ale konstrukacja async jest prawidłowam przy zapytaniu do bazy trzeba dodać await
         [HttpPost]
-        public IActionResult PostObject([FromBody] Product productDTO)
+        public async Task<IActionResult> PostObject([FromBody] Product productDTO)
         {
             return Ok($"Product id {productDTO.Id} has name: {productDTO.Name}");
         }
